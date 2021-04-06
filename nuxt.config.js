@@ -3,7 +3,7 @@ export default {
   mode: 'universal',
 
   router: {
-    base: '/order/'
+    base: '/siloah-food-order-newebpay/'
   },
 
 
