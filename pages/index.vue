@@ -245,8 +245,8 @@
               content-class="mt-3"
             >
               <b-tab title="付款方式" active>
-                <b-row>
-                  <b-col col sm="6" class="center">
+                <b-row class="center" >
+                  <!-- <b-col col sm="6" class="center">
                     <b-button
                       size="lg"
                       type="submit"
@@ -254,12 +254,12 @@
                       formaction="https://www.taiwanviptravel.com/order/payment/credit.php"
                       >信用卡付款</b-button
                     >
-                  </b-col>
-                  <b-col col sm="6" class="center">
+                  </b-col> -->
+                  <b-col col sm="12" class="center">
                     <b-button
                       size="lg"
                       type="submit"
-                      variant="info btn-block"
+                      variant="info"
                       formaction="https://www.taiwanviptravel.com/order/payment/atm.php"
                       >ATM轉帳付款</b-button
                     >
@@ -286,9 +286,15 @@ export default {
   data() {
     return {
       itemPrice: 0,
+      shippingFee: 180,
       fields: ['商品', '數量', '小計'],
       items: [
         { 商品: '', 數量: 0, 小計: 0 },
+         {
+          商品: '運費',
+          數量: '',
+          小計: 180,
+        },
         {
           商品: '總額',
           數量: '',
@@ -403,11 +409,18 @@ export default {
         this.receiveTimeOpt = arr.receiveTime
         this.form.productCode = this.$route.query.code
         this.form.productName = this.GET_ITEMNAME
+
+        // set shipping fee
+        // if (this.GET_PRICE * this.form.NoOfItem > 3000 ){
+        //   this.shippingFee = 0
+        // }
       }
       updatePrice(apiData)
         .then((this.items[0].小計 = this.GET_PRICE))
         .then((this.itemPrice = this.GET_PRICE))
-        .then((this.items[1].小計 = this.itemPrice * this.form.NoOfItem))
+        .then(this.items[1].小計 = this.shippingFee)
+        .then((this.items[2].小計 = this.itemPrice * this.form.NoOfItem + this.shippingFee))
+       
     },
 
     dateDisabled(ymd, date) {
@@ -468,8 +481,18 @@ export default {
     onChangeNoOfItem(val) {
       this.items[0].數量 = val
       // set totalPrice
-      this.form.amt = this.GET_PRICE * val
-      this.items[1].小計 = this.form.amt
+      
+
+      if (this.GET_PRICE * val > 3000){
+        this.shippingFee = 0
+        this.items[1].小計 =this.shippingFee
+      }else{
+        this.shippingFee = 180
+        this.items[1].小計 =this.shippingFee
+      }
+
+      this.form.amt = this.GET_PRICE * val + this.shippingFee
+      this.items[2].小計 = this.form.amt
     },
     checkForm(evt) {
       let error = false
