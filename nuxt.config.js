@@ -4,7 +4,7 @@ export default {
   target: 'static',
 
   router: {
-    base: '/siloah-food-order-newebpay/'
+    base: '/order/'
   },
 
 
@@ -55,7 +55,12 @@ export default {
     'bootstrap-vue/nuxt',
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
+    '@nuxtjs/gtm',
   ],
+  gtm: {
+    id: 'GTM-M3CGJF',
+    enabled: true,
+  },
   /*
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options

@@ -138,7 +138,7 @@
                 ></b-form-datepicker>
               </b-form-group>
             </b-col>
-            <b-col col sm="6">
+            <!-- <b-col col sm="6">
               <b-form-group id="input-group-8" label="收件時間:">
                 <b-form-select
                   id="receiveTime"
@@ -149,7 +149,7 @@
                   ref="receiveTime"
                 ></b-form-select>
               </b-form-group>
-            </b-col>
+            </b-col> -->
           </b-row>
 
           <div>
@@ -246,7 +246,7 @@
             >
               <b-tab title="付款方式" active>
                 <b-row class="center" >
-                  <!-- <b-col col sm="6" class="center">
+                  <b-col class="center">
                     <b-button
                       size="lg"
                       type="submit"
@@ -254,12 +254,12 @@
                       formaction="https://www.taiwanviptravel.com/order/payment/credit.php"
                       >信用卡付款</b-button
                     >
-                  </b-col> -->
-                  <b-col col sm="12" class="center">
+                  </b-col>
+                  <b-col>
                     <b-button
                       size="lg"
                       type="submit"
-                      variant="info"
+                      variant="info btn-block"
                       formaction="https://www.taiwanviptravel.com/order/payment/atm.php"
                       >ATM轉帳付款</b-button
                     >
@@ -271,6 +271,7 @@
         </b-form>
       </div>
     </b-container>
+    <!-- {{JSON.stringify(form)}} -->
   </div>
 </template>
 
@@ -405,15 +406,12 @@ export default {
         this.form.district = this.GET_DISTRICT.臺北市[0]
 
         //set available time for delivery
-        let arr = JSON.parse(apiData.fieldData.deliverable_time_json)
-        this.receiveTimeOpt = arr.receiveTime
+        // closed for hiding receive time 
+        // let arr = JSON.parse(apiData.fieldData.deliverable_time_json)
+        // this.receiveTimeOpt = arr.receiveTime
+        
         this.form.productCode = this.$route.query.code
         this.form.productName = this.GET_ITEMNAME
-
-        // set shipping fee
-        // if (this.GET_PRICE * this.form.NoOfItem > 3000 ){
-        //   this.shippingFee = 0
-        // }
       }
       updatePrice(apiData)
         .then((this.items[0].小計 = this.GET_PRICE))
@@ -516,11 +514,15 @@ export default {
         alert('please insert receive date')
         this.$refs.receiveDate.focus()
         error = true
-      } else if (this.form.receiveTime == '') {
-        alert('please insert receive Time')
-        this.$refs.receiveTime.focus()
-        error = true
-      } else if (
+      }
+      // close for hide receive time
+      // else if (this.form.receiveTime == '') {
+      //   alert('please insert receive Time')
+      //   this.$refs.receiveTime.focus()
+      //   error = true
+      // }
+      
+      else if (
         this.form.receiptSelected == '公司' &&
         this.form.companyTitle == ''
       ) {
